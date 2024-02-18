@@ -1,0 +1,214 @@
+definitions:
+  common.ErrorResponse:
+    description: returns error message
+    properties:
+      message:
+        type: string
+    type: object
+  dto.BookResponse:
+    description: Book response
+    properties:
+      author:
+        type: string
+      id:
+        type: string
+      isbn:
+        type: string
+      publication:
+        type: string
+    type: object
+  dto.CreateBook:
+    description: Creates a book
+    properties:
+      author:
+        type: string
+      isbn:
+        type: string
+      publication:
+        type: string
+    required:
+    - author
+    - isbn
+    - publication
+    type: object
+  dto.UpdateBook:
+    description: Updates a book
+    properties:
+      author:
+        type: string
+      publication:
+        type: string
+    required:
+    - author
+    - publication
+    type: object
+info:
+  contact: {}
+paths:
+  /add:
+    post:
+      consumes:
+      - application/json
+      description: This API Creates a new book
+      parameters:
+      - description: New Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateBook'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: Creates a book
+      tags:
+      - Books
+  /delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This API Deletes book
+      parameters:
+      - description: book id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: Deletes a book
+      tags:
+      - Books
+  /getbyid/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This API Gets a book by ID
+      parameters:
+      - description: book id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: Gets a book
+      tags:
+      - Books
+  /read:
+    get:
+      consumes:
+      - application/json
+      description: This API List the books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: List the books
+      tags:
+      - Books
+  /update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: This API Updates a book
+      parameters:
+      - description: book id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Existing Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateBook'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/common.ErrorResponse'
+      summary: Updates a book
+      tags:
+      - Books
+swagger: "2.0"

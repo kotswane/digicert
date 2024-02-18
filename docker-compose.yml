@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  database:
+     image: mongo:latest
+     restart: always
+     ports:
+       - "27017:27017"
+     container_name: "database"
+     networks:
+       - books-network
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "5003:5003"
+    container_name: "webserver"
+    environment:
+      API_PORT: "5003"
+      DB_DRIVER: "mongodb"
+      DB_HOST: "database"
+      DB_NAME: "library"
+      DB_PORT: "27017"
+      DB_USER: "digicert"
+      DB_PASSWORD: "3g9RAL0AtuItsvP"
+      SERVER_NAME: "localhost"
+    depends_on:
+      database:
+        condition: service_started
+    networks:
+      - books-network
+
+networks:
+  books-network:
+    driver: bridge
