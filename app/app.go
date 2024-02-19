@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"digicert/common"
 	"digicert/config"
 	"digicert/controller"
 	"digicert/db"
@@ -11,6 +12,7 @@ import (
 	"digicert/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -21,14 +23,16 @@ var (
 	cnf    = config.LoadConfig()
 	svc    service.IBookService
 	repo   repository.IBookRepository
-	ctrl   controller.BookController
+	ctrl   controller.IBookController
+	logger *log.Logger
 )
 
 func init() {
-	db, _ := db.Connect(ctx, cnf)
-	repo = repository.NewBookRepository(ctx, db)
-	svc = service.NewBookService(repo)
-	ctrl = controller.NewBookController(svc)
+	database, _ := db.Connect(ctx, cnf)
+	logger = common.GetLogger()
+	repo = repository.NewBookRepository(ctx, database, logger)
+	svc = service.NewBookService(repo, logger)
+	ctrl = controller.NewBookController(svc, logger)
 
 	docs.SwaggerInfo.Title = "Swagger Book API"
 	docs.SwaggerInfo.Description = "This is a Book API server."

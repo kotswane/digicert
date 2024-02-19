@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoutes(r *gin.Engine, ctrl controller.BookController) {
+func RegisterRoutes(r *gin.Engine, ctrl controller.IBookController) {
 	r.Use(gin.Recovery())
 	v1 := r.Group("/api/v1")
 	{

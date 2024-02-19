@@ -15,7 +15,7 @@ var (
 )
 
 func Connect(ctx context.Context, config config.Config) (*mongo.Database, error) {
-	//var uri = fmt.Sprintf("%s://%s:%s@%s/%s", config.DBDriver, config.DBUsername, config.DBPassword, config.DBHost, config.DBName)
+	//var uri = fmt.Sprintf("%s://%s:%s@%s/%s", config.DBDriver, config.DBUsername, config.DBPassword, config.DBHost, config.DBPort)
 	var uri = fmt.Sprintf("%s://%s:%s", config.DBDriver, config.DBHost, config.DBPort)
 
 	var clientOptions = options.Client().ApplyURI(uri)
